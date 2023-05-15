@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='justpass-me-django',
-    version='2.0.0',
+    version='2.0.1',
     description='Django Integration with JustPass.me',
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -30,7 +30,6 @@ setup(
         "Framework :: Django :: 2.0",
         "Framework :: Django :: 2.1",
         "Framework :: Django :: 2.2",
-        "Framework :: Django :: 4.2",
         "Intended Audience :: Developers",
         "Operating System :: OS Independent",
         "Programming Language :: Python",

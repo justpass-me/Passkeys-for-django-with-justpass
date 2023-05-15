@@ -3,8 +3,8 @@
 
 1. Install the justpassme app
 
-    For django 2.2, use justpass-me-django==2.0.0
-    For django 3.1+, use justpass-me-django==3.0.0
+    * For django 2.2, use justpass-me-django<3.0.0
+    * For django 3.1+, use justpass-me-django>3.0.0
     
    ```sh
    pip install justpass-me-django
