@@ -8,9 +8,9 @@ def enroll(request):
     return render(request,'amwal-auth.html',{})
 
 
-def start_reg(request):
+def start_reg(request,url_only=True):
     from justpassme.helpers import start_reg
-    return start_reg(request)
+    return start_reg(request,url_only)
 
 
 def start_login(request,url_only=True):

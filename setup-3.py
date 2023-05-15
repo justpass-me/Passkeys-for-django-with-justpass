@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='justpass-me-django',
-    version='2.0.0',
+    version='3.0.0',
     description='Django Integration with JustPass.me',
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -15,9 +15,8 @@ setup(
     license='MIT',
     packages=find_packages(),
     install_requires=[
-        'django >= 2.0',
-        'mozilla-django-oidc<3.0.0',
-        'PyOpenSSL>=0.13'
+        'django >= 3.0',
+        'mozilla-django-oidc==3.0.0',
       ],
     python_requires=">=3.7",
     include_package_data=True,
@@ -27,9 +26,11 @@ setup(
         "Development Status :: 4 - Beta",
         "Environment :: Web Environment",
         "Framework :: Django",
-        "Framework :: Django :: 2.0",
-        "Framework :: Django :: 2.1",
-        "Framework :: Django :: 2.2",
+        "Framework :: Django :: 3.0",
+        "Framework :: Django :: 3.1",
+        "Framework :: Django :: 3.2",
+        "Framework :: Django :: 4.0",
+        "Framework :: Django :: 4.1",
         "Framework :: Django :: 4.2",
         "Intended Audience :: Developers",
         "Operating System :: OS Independent",
@@ -37,6 +38,9 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 )

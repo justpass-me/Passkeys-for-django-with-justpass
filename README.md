@@ -3,17 +3,33 @@
 
 1. Install the justpassme app
 
+    For django 2.2, use justpass-me-django==2.0.0
+    For django 3.1+, use justpass-me-django==3.0.0
+    
    ```sh
    pip install justpass-me-django
    ```
+
+2. Add the following to your INSTALLED_APPS
+
+    ```python
+   INSTALLED_APPS = [ 
+   '....'
+   'mozilla_django_oidc',
+    'justpassme',
+   '....'
+   ]
+
+    ```
 
 2. Add the following to `settings.py`
 
    ```python
    AUTHENTICATION_BACKENDS = (
-       'justpass.OIDC_CLIENT.MyOIDCAB',
-       'django.contrib.auth.backends.ModelBackend',
-   )
+    'justpassme.OIDC_CLIENT.OIDCUserFinder',
+    'django.contrib.auth.backends.ModelBackend',
+    )
+
 
    SITE_URL = YOUR_SITE_URL   #Your full site url
    OIDC_USERNAME_FIELD = "username"   # The field to use to create users on justpass.me
@@ -21,10 +37,10 @@
 
    OIDC_RP_CLIENT_ID = "app.client_id"      # client_id from justpass.me
    OIDC_RP_CLIENT_SECRET="app.client_secret" # client_secret from justpass.me
-   OIDC_OP_URL= "https://organization_domain/openid/" #Put your organization domain on justpass.me
+   OIDC_OP_URL= "https://organization_domain.accounts.justpass.me/openid/" #Put your organization domain on justpass.me
 
    OIDC_RP_SCOPES= "openid"
-   OIDC_RP_SIGN_ALGO = '{{ app.jwt_alg }}'
+   OIDC_RP_SIGN_ALGO = 'HS256'
    OIDC_STORE_ID_TOKEN = True
    OIDC_OP_JWKS_ENDPOINT=OIDC_OP_URL  +"jwks"
    OIDC_OP_AUTHORIZATION_ENDPOINT=OIDC_OP_URL + "authorize/"
@@ -47,7 +63,15 @@
    AUTHENTICATION_FAILURE = "Shop.justpass.auth_failure"
 
    ```
-
+3. Add `justpass` to your urls
+   ```python 
+   urls_patterns= [
+   '...',
+   path(r'justpass/', include('justpassme.urls')),
+   path('oidc/',include('mozilla_django_oidc.urls')),
+   '....',
+    ]
+    ```
 ## Note:  If you use justpass.me as 2nd factor
 
 Break your login function, Usually your login function will check for username and password, log the user in if the username and password are correct and create the user session, to support justpass.me, this has to change
@@ -57,7 +81,7 @@ Break your login function, Usually your login function will check for username a
        * if user has mfa then redirect to justpass.me
        * if user doesn't have mfa then call your function to create the user session
 
-3. Write a function to start registration and add it to your `urls.py`
+3. To start registration, go `justpass:reg``
 
    ```python
    def start_reg(request):

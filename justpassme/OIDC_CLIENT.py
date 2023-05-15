@@ -9,8 +9,7 @@ from jose import jwt
 from mozilla_django_oidc.utils import absolutify, add_state_and_nonce_to_session
 from mozilla_django_oidc.views import OIDCAuthenticationRequestView, get_next_url, OIDCAuthenticationCallbackView
 
-from Shop import settings
-from Shop.models import User
+from django.conf import settings
 
 from mozilla_django_oidc.auth import OIDCAuthenticationBackend, LOGGER
 
@@ -53,7 +52,7 @@ class Authenticate(OIDCAuthenticationRequestView):
 
     def get_extra_params(self, request,state):
         if request.user.is_authenticated:
-            token = request.user.phone_number
+            token = getattr(request.user,getattr(settings,"OIDC_USERNAME_FIELD","username"))
         else:
             token = request.session.get("token")
         v = {"state": state}
@@ -93,6 +92,7 @@ class AuthenticationView(OIDCAuthenticationRequestView):
 class OIDCUserFinder(OIDCAuthenticationBackend):
     def filter_users_by_claims(self, claims):
         username  = claims.get("preferred_username")
+        User = auth.get_user_model()
         try:
             kwargs = {getattr(settings,"OIDC_USERNAME_FIELD","username"): username}
             profile = User.objects.get(**kwargs)
