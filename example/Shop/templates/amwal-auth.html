@@ -1,0 +1,33 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block content%}
+<script type="application/javascript">
+  function start_reg() {
+    $.ajax({
+      "url": "{%url 'start_justpass_reg'%}",
+      success: function (data) {
+        location.href = data;
+      }
+    })
+  }
+</script>
+  <div class="container">
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header">Register FastLogin</div>
+      <div class="card-body">
+          <div class="row">
+            <div class="col-md-12" align="center">
+              <img src="{%static 'images/fingerprint-solid.svg'%}" style="height: 128px">
+            </div>
+          </div>
+            <div class="row">
+              <div class="col-12" align="center">
+              Register to the more secure service of fast login<br/>
+              <a href="javascript:void(0)" onclick="start_reg()"><button class="btn btn-success">Register</button></a>
+              </div>
+          </div>
+
+    </div>
+  </div>
+
+{%endblock%}

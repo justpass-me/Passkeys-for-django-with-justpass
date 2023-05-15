@@ -1,0 +1,41 @@
+{%extends 'base.html'%}
+{%block content%}
+   <div class="card">
+      <div class="card-header">
+         Login
+      </div>
+      <div class="card-body">
+           {% if invalid %}
+              <div class="alert alert-danger">Invalid Username or password</div>
+          {% elif invalid_token %}
+              <div class="alert alert-danger">The device used an expired token, please try again</div>
+          {% elif mfa_disabled %}
+              <div class="alert alert-warning">Currently, the user disabled or deactivated the secure login secure, please use username and password</div>
+          {% elif invalid_session %}
+              <div class="alert alert-danger">Something went wrong, please try again.</div>
+          {% elif failed %}
+              <div class="alert alert-danger">Login with Amwal Auth failed, please try again..</div>
+          {% endif %}
+         <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+          <div class="form-group">
+            <div class="form-label-group">
+              <input type="text" id="inputUsername" name="mobile" class="form-control" placeholder="Mobile Number +966" required="required" autofocus="autofocus">
+
+            </div>
+          </div>
+            <div class="row">
+               <div class="col-4 offset-3" align="center">
+            <button class="btn btn-success btn-block" type="submit">Login</button>
+                  </div>
+               </div>
+             <br/>
+              <div class="row">
+               <div class="col-4 offset-3" align="center">
+                   <a href="{% url 'goto_justpass_login' %}"><button class="btn btn-dark btn-block" type="button">Login By JustPass</button></a>
+                  </div>
+               </div>
+         </form>
+      </div>
+   </div>
+{%endblock%}

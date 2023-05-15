@@ -1,0 +1,22 @@
+{%extends 'base.html'%}
+{%block content%}
+   <div class="card">
+      <div class="card-header">
+         Login
+      </div>
+      <div class="card-body">
+         <form action="{% url 'otp' %}" method="post">
+            {% csrf_token %}
+          <div class="form-group">
+              <label>Enter OTP Sent to your phone</label>
+                <input type="text" inputmode="numeric" name="otp" class="form-control" pattern="\d*" placeholder="Enter 5432">
+             </div>
+               <div class="row">
+               <div class="col-4 offset-3" align="center">
+            <button class="btn btn-success" type="submit">Login</button>
+                  </div>
+               </div>
+         </form>
+      </div>
+   </div>
+{%endblock%}
