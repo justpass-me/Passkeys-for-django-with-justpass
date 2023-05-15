@@ -48,8 +48,7 @@
 
    ```
 
-## Note:
-1. If you use justpass.me as 2nd factor
+## Note:  If you use justpass.me as 2nd factor
 
 Break your login function, Usually your login function will check for username and password, log the user in if the username and password are correct and create the user session, to support justpass.me, this has to change
    
@@ -57,7 +56,6 @@ Break your login function, Usually your login function will check for username a
    * if username and password are correct , check if the user has mfa or not
        * if user has mfa then redirect to justpass.me
        * if user doesn't have mfa then call your function to create the user session
-2. 
 
 4. Write a function to start registration and add it to your `urls.py`
 
@@ -82,7 +80,6 @@ You can use the four functions below as a reference.
 
    ```python
    def auth_success(request):
-      create_session(request,request.session["base_username"]
       return redirect('home')
          
    def auth_failure(request):
