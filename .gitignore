@@ -2,3 +2,5 @@
 __pycache__/
 .idea/
 env/
+dist/
+justpass_me_django.egg-info/

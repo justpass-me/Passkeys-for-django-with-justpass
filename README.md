@@ -57,7 +57,7 @@ Break your login function, Usually your login function will check for username a
        * if user has mfa then redirect to justpass.me
        * if user doesn't have mfa then call your function to create the user session
 
-4. Write a function to start registration and add it to your `urls.py`
+3. Write a function to start registration and add it to your `urls.py`
 
    ```python
    def start_reg(request):
@@ -65,7 +65,7 @@ Break your login function, Usually your login function will check for username a
        return start_reg(request)
    ```
 
-5. Write a function to start login and add it to your `urls.py`
+4. Write a function to start login and add it to your `urls.py`
 
    **Note:** The function expects the user username to be in `request.session["base_username"]`
 
@@ -75,7 +75,7 @@ Break your login function, Usually your login function will check for username a
        return start_oidc_sign(request)
    ```
 
-6. Write 4 functions that handle the success and failure of registration and login. 
+5. Write 4 functions that handle the success and failure of registration and login. 
 You can use the four functions below as a reference.
 
    ```python
