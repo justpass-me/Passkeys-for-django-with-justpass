@@ -46,8 +46,8 @@
    OIDC_OP_AUTHORIZATION_ENDPOINT=OIDC_OP_URL + "authorize/"
    OIDC_OP_TOKEN_ENDPOINT = OIDC_OP_URL +"token/"
    OIDC_OP_USER_ENDPOINT = OIDC_OP_URL + "userinfo/"
-   OIDC_CALLBACK_CLASS= "justpass.OIDC_CLIENT.OIDCAuthn"
-   OIDC_AUTHENTICATE_CLASS = "justpass.OIDC_CLIENT.OIDC_AUTHENTICATE"
+   OIDC_CALLBACK_CLASS= "justpassme.OIDC_CLIENT.OIDCAuthn"
+   OIDC_AUTHENTICATE_CLASS = "justpassme.OIDC_CLIENT.OIDC_AUTHENTICATE"
    LOGIN_REDIRECT_URL_FAILURE="/justpass/failure/"
    LOGIN_REDIRECT_URL = "/justpass/success/"
 
@@ -57,10 +57,10 @@
 
 
    # Provide the following functions that will be called when event is triggered, check example functions below
-   REGISTRATION_SUCCESS = "Shop.justpass.reg_success"
-   REGISTRATION_FAILURE = "Shop.justpass.reg_failure"
-   AUTHENTICATION_SUCCESS = "Shop.justpass.auth_success"
-   AUTHENTICATION_FAILURE = "Shop.justpass.auth_failure"
+   REGISTRATION_SUCCESS = "Your_App.justpass.reg_success"
+   REGISTRATION_FAILURE = "Your_App.justpass.reg_failure"
+   AUTHENTICATION_SUCCESS = "Your_App.justpass.auth_success"
+   AUTHENTICATION_FAILURE = "Your_App.justpass.auth_failure"
 
    ```
 3. Add `justpass` to your urls
@@ -81,26 +81,17 @@ Break your login function, Usually your login function will check for username a
        * if user has mfa then redirect to justpass.me
        * if user doesn't have mfa then call your function to create the user session
 
-3. To start registration, go `justpass:reg``
+3. To start registration, redirct to  `justpass:start_reg`
 
-   ```python
-   def start_reg(request):
-       from justpassme.helpers import start_reg
-       return start_reg(request)
-   ```
 
-4. Write a function to start login and add it to your `urls.py`
+4. To start login, redirect to `justpass:start_login`
 
-   **Note:** The function expects the user username to be in `request.session["base_username"]`
+   **Note:** For 2nd factor, The function expects the user's username to be in `request.session["base_username"]`
 
-   ```python
-   def start_login(request):
-       from justpassme.helpers import start_oidc_sign
-       return start_oidc_sign(request)
-   ```
 
-5. Write 4 functions that handle the success and failure of registration and login. 
-You can use the four functions below as a reference.
+5. Write 4 functions that handle the success and failure of registration and login, refer to them in the `settings.py` 
+
+   You can use the four functions below as a reference.
 
    ```python
    def auth_success(request):
