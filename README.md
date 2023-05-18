@@ -72,24 +72,16 @@
    '....',
     ]
     ```
-## Note:  If you use justpass.me as 2nd factor
 
-Break your login function, Usually your login function will check for username and password, log the user in if the username and password are correct and create the user session, to support justpass.me, this has to change
-   
-   * authenticate the user
-   * if username and password are correct , check if the user has mfa or not
-       * if user has mfa then redirect to justpass.me
-       * if user doesn't have mfa then call your function to create the user session
-
-3. To start registration, redirct to  `justpass:start_reg`
+4. To start registration, redirct to  `justpass:start_reg`
 
 
-4. To start login, redirect to `justpass:start_login`
+5. To start login, redirect to `justpass:start_login`
 
    **Note:** For 2nd factor, The function expects the user's username to be in `request.session["base_username"]`
 
 
-5. Write 4 functions that handle the success and failure of registration and login, refer to them in the `settings.py` 
+6. Write 4 functions that handle the success and failure of registration and login, refer to them in the `settings.py` 
 
    You can use the four functions below as a reference.
 
@@ -110,3 +102,12 @@ Break your login function, Usually your login function will check for username a
       request.session["reg"] = False
       return redirect('home')
    ```
+   
+## Note:  If you use justpass.me as 2nd factor
+
+Break your login function, Usually your login function will check for username and password, log the user in if the username and password are correct and create the user session, to support justpass.me, this has to change
+   
+   * authenticate the user
+   * if username and password are correct , check if the user has mfa or not
+       * if user has mfa then redirect to justpass.me
+       * if user doesn't have mfa then call your function to create the user session
