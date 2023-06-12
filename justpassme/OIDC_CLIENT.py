@@ -100,6 +100,33 @@ class OIDCUserFinder(OIDCAuthenticationBackend):
         except Exception: pass
         return self.UserModel.objects.none()
 
+    def create_user(self, claims):
+        """Return object for a newly created user account."""
+        email = claims.get("email")
+        username = self.get_username(claims)
+        kwargs = {"email":email, getattr(settings, "OIDC_USERNAME_FIELD", "username"): username}
+        return self.UserModel.objects.create_user(**kwargs)
+
+    def get_username(self, claims):
+        """Generate username based on claims."""
+        # bluntly stolen from django-browserid
+        # https://github.com/mozilla/django-browserid/blob/master/django_browserid/auth.py
+        username_algo = self.get_settings("OIDC_USERNAME_ALGO", None)
+
+        if username_algo:
+            if isinstance(username_algo, str):
+                username_algo = import_string(username_algo)
+            return username_algo(claims.get("email"))
+
+        return default_username_algo(claims.get("email"))
+
+    def create_user(self, claims):
+        """Return object for a newly created user account."""
+        email = claims.get("email")
+        username = claims.get("preferred_username")
+        return self.UserModel.objects.create_user(username, email=email)
+
+
 
 class Callback(OIDCAuthenticationCallbackView):
     """Handles the callback received from OIDC Provider"""
