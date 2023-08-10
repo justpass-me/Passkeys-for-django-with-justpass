@@ -57,6 +57,10 @@ class Authenticate(OIDCAuthenticationRequestView):
             token = request.session.get("token")
         v = {"state": state}
         d = {}
+        from django.utils.translation import get_language
+        locale = get_language()
+        if locale != '':
+            d["ui_locales"] = locale
         if token:
             d["login_hint"]= token
             d["username"] = token
@@ -90,6 +94,11 @@ class AuthenticationView(OIDCAuthenticationRequestView):
         return True
 
 class OIDCUserFinder(OIDCAuthenticationBackend):
+
+    def create_user(self, claims):
+        kwargs = {getattr(settings, "OIDC_USERNAME_FIELD", "username"): claims["perferred_username"]}
+        return self.UserModel.objects.create(**kwargs)
+
     def filter_users_by_claims(self, claims):
         username  = claims.get("preferred_username")
         User = auth.get_user_model()
@@ -102,29 +111,11 @@ class OIDCUserFinder(OIDCAuthenticationBackend):
 
     def create_user(self, claims):
         """Return object for a newly created user account."""
-        email = claims.get("email")
-        username = self.get_username(claims)
-        kwargs = {"email":email, getattr(settings, "OIDC_USERNAME_FIELD", "username"): username}
+        username_field = getattr(settings, "OIDC_USERNAME_FIELD", "username")
+        kwargs = {username_field: claims["preferred_username"]}
+
         return self.UserModel.objects.create_user(**kwargs)
 
-    def get_username(self, claims):
-        """Generate username based on claims."""
-        # bluntly stolen from django-browserid
-        # https://github.com/mozilla/django-browserid/blob/master/django_browserid/auth.py
-        username_algo = self.get_settings("OIDC_USERNAME_ALGO", None)
-
-        if username_algo:
-            if isinstance(username_algo, str):
-                username_algo = import_string(username_algo)
-            return username_algo(claims.get("email"))
-
-        return default_username_algo(claims.get("email"))
-
-    def create_user(self, claims):
-        """Return object for a newly created user account."""
-        email = claims.get("email")
-        username = claims.get("preferred_username")
-        return self.UserModel.objects.create_user(username, email=email)
 
 
 
